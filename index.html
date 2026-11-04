@@ -1,0 +1,744 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#eee5d7">
+<title>KOOB | كوب</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f4eee5;
+  --cream:#e9dece;
+  --white:#fffdf9;
+  --brown:#493326;
+  --dark:#302219;
+  --gold:#a98255;
+  --muted:#9b8c7b;
+  --border:#e9dfd2;
+  --shadow:0 12px 35px #4933260d;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Cairo',sans-serif;
+  background:var(--bg);
+  color:var(--brown);
+  overflow-x:hidden;
+}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+img{display:block;width:100%;object-fit:cover}
+button:active{transform:scale(.96)}
+
+/* INTRO */
+.intro{
+  position:fixed;inset:0;z-index:1000;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;
+  background:#21150f;
+  transition:opacity 1s,visibility 1s;
+}
+.intro.hide{opacity:0;visibility:hidden}
+.intro-bg{
+  position:absolute;inset:-5%;
+  background:url('assets/intro.png') center/cover;
+  animation:zoom 12s infinite alternate;
+}
+.intro:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(0deg,#160c08c9,#160c0840);
+}
+.intro-content{position:relative;z-index:2;color:#f2dfc2;padding:20px}
+.intro-content .tiny{letter-spacing:5px;font-size:10px;animation:up 1s .3s both}
+.intro-content h1{font-size:85px;margin:15px 0;animation:logo 1.5s both}
+.intro-content p{font-size:14px;animation:up 1s 1s both}
+.intro-enter{
+  margin-top:35px;padding:13px 36px;
+  border:1px solid #c8a77e;background:transparent;
+  color:#f2dfc2;font-size:13px;
+  transition:.4s;animation:up 1s 1.5s both;
+}
+.intro-enter:hover{background:#c8a77e;color:#25170f}
+
+/* NAV */
+header{
+  height:78px;padding:0 7%;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#f4eee5eF;
+  position:sticky;top:0;z-index:50;
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(15px);
+}
+.logo{font-size:28px;font-weight:800;letter-spacing:3px}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:32px;font-size:13px}
+.nav-links a{transition:.3s}
+.nav-links a:hover{color:var(--gold)}
+.cart-count{
+  background:#fff;color:var(--brown);
+  border-radius:50%;width:21px;height:21px;
+  display:grid;place-items:center;font-size:11px;
+}
+
+/* HERO */
+.hero{
+  min-height:570px;
+  margin:24px 4%;
+  border-radius:8px;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;
+  background:#332319;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+  linear-gradient(90deg,#21140b08,#21140bd9),
+  url('assets/intro.png') center/cover;
+  animation:zoom 20s infinite alternate;
+}
+.hero-content{
+  position:relative;color:#fff2dd;
+  padding:65px 9%;max-width:650px;
+  animation:up 1.2s both;
+}
+.hero-label{font-size:11px;letter-spacing:4px;color:#dfbd91}
+.hero h2{font-size:clamp(42px,7vw,75px);line-height:1.5;margin:15px 0}
+.hero h2 span{color:#d5b38a}
+.hero p{font-size:14px;line-height:2;color:#e3d1bc;max-width:400px}
+.primary-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#d5b58b;color:#302219;
+  padding:13px 30px;margin-top:25px;
+  border:0;border-radius:3px;font-weight:700;
+  transition:.35s;font-size:13px;
+}
+.primary-btn:hover{background:#f2dfc2;transform:translateY(-4px)}
+
+/* GENERAL */
+.section{padding:75px 7%}
+.section-head{text-align:center;margin-bottom:35px}
+.section-head small{color:var(--gold);letter-spacing:3px;font-size:11px}
+.section-head h2{font-size:32px;margin:8px 0}
+.section-head p{color:var(--muted);font-size:12px}
+
+/* CATEGORY */
+.categories{
+  display:flex;justify-content:center;gap:12px;
+  flex-wrap:wrap;margin-bottom:35px;
+}
+.category{
+  background:transparent;border:1px solid #d9cbbb;
+  padding:9px 22px;border-radius:30px;
+  color:var(--brown);font-size:12px;
+  transition:.3s;
+}
+.category.active,.category:hover{
+  background:var(--brown);color:white;border-color:var(--brown);
+}
+
+/* PRODUCTS */
+.products{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:24px;
+}
+.product{
+  background:var(--white);
+  border:1px solid #eae0d5;
+  border-radius:7px;overflow:hidden;
+  transition:.4s;
+  box-shadow:var(--shadow);
+}
+.product:hover{transform:translateY(-7px);box-shadow:0 18px 35px #49332618}
+.product-image{height:220px;position:relative;overflow:hidden}
+.product-image img{height:100%;transition:.7s}
+.product:hover img{transform:scale(1.07)}
+.product-info{padding:18px}
+.product-info h3{font-size:16px}
+.product-info p{font-size:11px;color:var(--muted);margin:7px 0 15px}
+.product-bottom{display:flex;justify-content:space-between;align-items:center}
+.price{font-size:14px;font-weight:800;color:var(--gold)}
+.add-btn{
+  width:38px;height:38px;border:0;border-radius:50%;
+  background:var(--cream);color:var(--brown);
+  font-size:22px;transition:.3s;
+}
+.add-btn:hover{background:var(--brown);color:white;transform:rotate(90deg)}
+
+/* STORY */
+.story{
+  background:#e9dfd1;
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;gap:50px;
+}
+.story img{height:350px;border-radius:5px}
+.story h2{font-size:36px;margin:15px 0}
+.story p{font-size:13px;line-height:2.5;color:#817263}
+
+/* FOOTER */
+footer{
+  background:#302219;color:#e8d7c0;
+  text-align:center;padding:40px 15px;
+}
+footer .logo{margin-bottom:10px}
+footer p{font-size:11px;color:#c2ad94}
+
+/* CART DRAWER */
+.overlay{
+  position:fixed;inset:0;background:#21160b80;
+  z-index:100;opacity:0;visibility:hidden;transition:.35s;
+}
+.overlay.show{opacity:1;visibility:visible}
+.drawer{
+  position:fixed;top:0;bottom:0;left:0;
+  width:min(430px,92%);
+  background:var(--white);z-index:101;
+  padding:25px;transform:translateX(-110%);
+  transition:.45s cubic-bezier(.2,.8,.2,1);
+  display:flex;flex-direction:column;
+}
+.drawer.show{transform:translateX(0)}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.drawer-head h3{font-size:21px}
+.close{
+  border:0;background:#f0e8dd;
+  width:35px;height:35px;border-radius:50%;
+  color:var(--brown);font-size:20px;
+}
+.cart-items{flex:1;overflow:auto;padding:15px 0}
+.empty{text-align:center;color:var(--muted);padding:70px 10px;font-size:13px}
+.cart-item{
+  display:flex;gap:12px;align-items:center;
+  padding:13px 0;border-bottom:1px solid var(--border);
+}
+.cart-item img{width:75px;height:75px;border-radius:5px}
+.cart-item-info{flex:1}
+.cart-item-info h4{font-size:13px}
+.cart-item-info p{font-size:12px;color:var(--gold);margin-top:5px}
+.quantity{display:flex;align-items:center;gap:10px;margin-top:8px}
+.quantity button{
+  width:25px;height:25px;border:0;
+  border-radius:50%;background:#eee5d8;color:var(--brown);
+}
+.remove{border:0;background:none;color:#b66d55;font-size:11px}
+.cart-total{border-top:1px solid var(--border);padding-top:18px}
+.total-line{display:flex;justify-content:space-between;font-weight:700}
+.checkout-btn{
+  width:100%;border:0;background:var(--brown);
+  color:white;padding:14px;margin-top:17px;
+  border-radius:4px;transition:.3s;
+}
+.checkout-btn:hover{background:var(--gold)}
+
+/* CHECKOUT MODAL */
+.modal{
+  position:fixed;inset:0;z-index:150;
+  display:grid;place-items:center;
+  padding:15px;background:#21160b80;
+  opacity:0;visibility:hidden;transition:.3s;
+}
+.modal.show{opacity:1;visibility:visible}
+.modal-box{
+  background:var(--white);padding:25px;
+  width:min(450px,100%);max-height:90vh;overflow:auto;
+  border-radius:8px;transform:translateY(25px);
+  transition:.35s;
+}
+.modal.show .modal-box{transform:translateY(0)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal-head h3{font-size:21px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:12px;margin-bottom:7px;color:#786757}
+.field input,.field textarea{
+  width:100%;padding:13px;
+  border:1px solid var(--border);outline:none;
+  background:#faf7f1;color:var(--brown);
+  border-radius:4px;font-size:13px;
+}
+.field input:focus,.field textarea:focus{border-color:var(--gold)}
+.field textarea{resize:vertical;min-height:75px}
+.send-btn{
+  width:100%;padding:14px;border:0;
+  background:var(--brown);color:white;
+  border-radius:4px;font-size:14px;
+}
+.send-btn:hover{background:var(--gold)}
+.toast{
+  position:fixed;bottom:25px;left:50%;
+  transform:translate(-50%,20px);
+  background:var(--brown);color:white;
+  padding:12px 22px;border-radius:30px;
+  font-size:12px;z-index:300;
+  opacity:0;pointer-events:none;transition:.3s;
+  white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.reveal{opacity:0;transform:translateY(25px);transition:.8s}
+.reveal.active{opacity:1;transform:translateY(0)}
+
+@keyframes zoom{to{transform:scale(1.1)}}
+@keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes logo{from{opacity:0;filter:blur(10px);transform:scale(.8)}to{opacity:1;filter:blur(0);transform:scale(1)}}
+
+@media(max-width:750px){
+  header{height:68px;padding:0 5%}
+  .nav-links{gap:13px;font-size:10px}
+  .logo{font-size:23px}
+  .hero{margin:12px 3%;min-height:540px}
+  .hero-bg{background-position:60% center}
+  .hero-content{padding:35px 7%}
+  .section{padding:60px 5%}
+  .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .product-image{height:150px}
+  .product-info{padding:12px}
+  .product-info h3{font-size:13px}
+  .product-info p{font-size:10px}
+  .price{font-size:12px}
+  .add-btn{width:32px;height:32px}
+  .story{grid-template-columns:1fr;gap:25px}
+  .story img{height:240px}
+  .story h2{font-size:29px}
+  .intro-content h1{font-size:70px}
+}
+@media(max-width:380px){
+  .nav-links{gap:8px}
+  .nav-links a{font-size:9px}
+}
+
+/* MODERN LUXURY BUTTON SYSTEM */
+button,.primary-btn{
+  border-radius:999px !important;
+  transition:
+    background .35s ease,
+    color .35s ease,
+    transform .35s cubic-bezier(.2,.8,.2,1),
+    box-shadow .35s ease,
+    border-color .35s ease !important;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button:focus-visible,a:focus-visible{
+  outline:2px solid #a98255;
+  outline-offset:4px;
+}
+
+.intro-enter{
+  border-radius:50px !important;
+  padding:15px 38px !important;
+  background:rgba(255,255,255,.07);
+  backdrop-filter:blur(12px);
+  box-shadow:0 8px 30px #0002;
+}
+
+.intro-enter:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 35px #c49a6340;
+}
+
+.primary-btn{
+  border-radius:50px !important;
+  box-shadow:0 7px 20px #49332618;
+}
+
+.primary-btn:hover{
+  box-shadow:0 12px 25px #49332625;
+}
+
+.category{
+  border-radius:50px !important;
+  padding:11px 23px !important;
+  background:rgba(255,255,255,.45);
+  border-color:#dfd2c1;
+  font-weight:600;
+}
+
+.category.active{
+  background:#493326;
+  box-shadow:0 6px 18px #49332625;
+}
+
+.add-btn{
+  border-radius:50% !important;
+  width:42px !important;
+  height:42px !important;
+  display:grid;
+  place-items:center;
+  font-size:24px;
+  box-shadow:0 4px 12px #49332612;
+}
+
+.add-btn:hover{
+  transform:rotate(90deg) scale(1.08);
+  box-shadow:0 7px 18px #49332625;
+}
+
+.checkout-btn,.send-btn{
+  border-radius:50px !important;
+  padding:15px 20px !important;
+  font-weight:700;
+  box-shadow:0 7px 20px #49332620;
+}
+
+.checkout-btn:hover,.send-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 25px #49332630;
+}
+
+.close{
+  border-radius:50% !important;
+  width:40px;
+  height:40px;
+  font-size:23px;
+  transition:.3s;
+}
+
+.close:hover{
+  background:#493326;
+  color:white;
+  transform:rotate(90deg);
+}
+
+.quantity button{
+  border-radius:50% !important;
+  width:30px;
+  height:30px;
+  font-size:17px;
+  transition:.25s;
+}
+
+.quantity button:hover{
+  background:#493326;
+  color:white;
+}
+
+.remove{
+  width:auto !important;
+  border-radius:30px !important;
+  padding:5px 12px;
+}
+
+.field input,.field textarea{
+  border-radius:15px !important;
+  padding:15px !important;
+  transition:.3s;
+  background:#faf7f2;
+}
+
+.field input:focus,.field textarea:focus{
+  background:white;
+  box-shadow:0 0 0 4px #a9825518;
+}
+
+.product{
+  border-radius:16px;
+  transition:transform .4s ease,box-shadow .4s ease;
+}
+
+.product-image{
+  border-radius:14px 14px 0 0;
+}
+
+.drawer{
+  border-radius:0 22px 22px 0;
+}
+
+.modal-box{
+  border-radius:22px !important;
+  box-shadow:0 25px 80px #21160b25;
+}
+
+.cart-button:active,.category:active,
+.primary-btn:active,.checkout-btn:active,
+.send-btn:active,.intro-enter:active{
+  transform:scale(.96);
+}
+
+@media(max-width:750px){
+  .category{padding:9px 17px !important}
+  .add-btn{width:38px !important;height:38px !important}
+  .drawer{border-radius:0 20px 20px 0}
+}
+
+
+/* KOOB INSTAGRAM */
+.instagram-button {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  padding:12px 23px;
+  border-radius:50px;
+  background:var(--gold);
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+  transition:all .3s ease;
+  box-shadow:0 5px 18px rgba(169,130,85,.16);
+}
+.instagram-button:hover {
+  transform:translateY(-3px);
+  box-shadow:0 9px 24px rgba(169,130,85,.25);
+}
+.instagram-footer {
+  display:inline-flex;
+  margin-top:15px;
+  padding:11px 22px;
+  border:1px solid var(--gold);
+  border-radius:50px;
+  color:var(--gold);
+  text-decoration:none;
+  transition:.3s ease;
+}
+.instagram-footer:hover {
+  background:var(--gold);
+  color:white;
+}
+.product-bottom {
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  margin-top:15px;
+}
+@media(max-width:600px) {
+  .instagram-button {
+    padding:10px 15px;
+    font-size:11px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- CINEMATIC INTRO -->
+<div class="intro" id="intro">
+  <div class="intro-bg"></div>
+  <div class="intro-content">
+    <div class="tiny"></div>
+    <h1>كوب</h1>
+    <p>كوب كافيه</p>
+    <button class="intro-enter" onclick="enterSite()">اكتشف عالم كوب ←</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#home">KOO<span>B.</span></a>
+  <nav class="nav-links">
+    <a href="#home">الرئيسية</a>
+    <a href="#menu">القائمة</a>
+    <a href="#story">قصتنا</a>
+  </nav>
+  <a class="cart-button instagram-button" href="https://www.instagram.com/koob.coffe/" target="_blank" rel="noopener">تابعنا على إنستغرام ↗</a>
+</header>
+
+<!-- HERO -->
+<main>
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-label">WELCOME TO KOOB</div>
+    <h2>لحظتك تبدأ<br>مع <span>كوب.</span></h2>
+    <p>أهلاً بك في عالم كوب.</p>
+    <a href="#menu" class="primary-btn">اكتشف القائمة ←</a>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="section" id="menu">
+  <div class="section-head reveal">
+    <small>OUR MENU</small>
+    <h2>قائمتنا</h2>
+    <p>اختر مشروبك المفضل واستمتع بلحظتك.</p>
+  </div>
+
+<div class="categories" id="categories">
+  <button class="category active" data-category="الكل">الكل</button>
+  <button class="category" data-category="كريب">كريب</button>
+  <button class="category" data-category="وافل">وافل</button>
+  <button class="category" data-category="بان كيك">بان كيك</button>
+  <button class="category" data-category="كنافة">كنافة</button>
+  <button class="category" data-category="كوكيز">كوكيز</button>
+  <button class="category" data-category="كيك تركي">كيك تركي</button>
+  <button class="category" data-category="دونات">دونات</button>
+  <button class="category" data-category="عصائر">عصائر</button>
+  <button class="category" data-category="مشروبات ساخنة">مشروبات ساخنة</button>
+  <button class="category" data-category="مشروبات باردة">مشروبات باردة</button>
+</div>
+  </div>
+
+  <div class="products" id="products"></div>
+</section>
+
+<!-- STORY -->
+<section class="section story" id="story">
+  <div class="reveal">
+    <small style="color:#a98255;letter-spacing:3px"></small>
+    </p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="logo">KOOB.</div>
+  <p>كل كوب، حكاية.</p>
+  <a class="instagram-footer" href="https://www.instagram.com/koob.coffe/" target="_blank" rel="noopener">تابعنا على إنستغرام ↗</a>
+  <p style="margin-top:18px">Ahmed Maitham 07744276603</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const productsData = [
+  // كريب
+  {id:1,name:"كريب كلاسيك",price:3000,cat:"كريب",img:"assets/products/كريب كلاسيك.jpg"},
+  {id:2,name:"كريب سوشي",price:3000,cat:"كريب",img:"assets/products/سوشي.jpg"},
+  {id:3,name:"كريب كندر",price:3000,cat:"كريب",img:"assets/products/كندر.jpg"},
+  {id:4,name:"كريب أوريو",price:3000,cat:"كريب",img:"assets/products/كريب اوريو.jpg"},
+  {id:5,name:"كريب لوتس",price:3500,cat:"كريب",img:"assets/products/كريب لوتس.jpg"},
+  {id:6,name:"كريب بستاشيو",price:3500,cat:"كريب",img:"assets/products/كريب بستاشيو.jpg"},
+
+  // وافل
+  {id:7,name:"وافل كلاسيك",price:3000,cat:"وافل",img:"assets/products/وافل كلاسيك.jpg"},
+  {id:8,name:"وافل نوتيلا",price:3000,cat:"وافل",img:"assets/products/وافل نوتيلا.jpg"},
+  {id:9,name:"وافل بستاشيو",price:3500,cat:"وافل",img:"assets/products/وافل بستاشيو.jpg"},
+  {id:10,name:"وافل فواكه",price:3000,cat:"وافل",img:"assets/products/وافل فواكه.jpg"},
+
+  // بان كيك
+  {id:11,name:"بان كيك كلاسيك",price:3000,cat:"بان كيك",img:"assets/products/بان كيك.jpg"},
+  {id:12,name:"بان كيك فواكه",price:3000,cat:"بان كيك",img:"assets/products/بان كيك فواكه.jpg"},
+  {id:13,name:"ميني بان كيك",price:3000,cat:"بان كيك",img:"assets/products/ميني بان كيك.jpg"},
+  {id:14,name:"ميني كريب",price:2000,cat:"بان كيك",img:"assets/products/ميني كريب.jpg"},
+
+  // كنافة
+  {id:15,name:"كنافة بالقشطة",price:3000,cat:"كنافة",img:"assets/products/كنافه بستاشيو.jpg"},
+  {id:16,name:"كنافة بالنوتيلا",price:3000,cat:"كنافة",img:"assets/products/كنافه بالنوتيلا.jpg"},
+  {id:17,name:"كنافة بالبستاشيو",price:3500,cat:"كنافة",img:"assets/products/كنافة بالقشطة.jpg"},
+
+  // كوكيز
+  {id:18,name:"كوكيز - 4 قطع",price:5000,cat:"كوكيز",img:"assets/products/كوكيز.jpg"},
+
+  // كيك تركي
+  {id:19,name:"كيك تركي بستاشيو",price:2500,cat:"كيك تركي",img:"assets/products/كيك تركي بستاشيو.jpg"},
+  {id:20,name:"كيك تركي",price:2000,cat:"كيك تركي",img:"assets/products/كيك تركي.jpg"},
+
+  // دونات
+  {id:21,name:"دونات نوتيلا",price:1000,cat:"دونات",img:"assets/products/دونات نوتيلا.jpg"},
+  {id:22,name:"دونات بستاشيو",price:1000,cat:"دونات",img:"assets/products/دونات بستاشيو.jpg"},
+  {id:23,name:"دونات لوتس",price:1000,cat:"دونات",img:"assets/products/دونات لوتس.jpg"},
+  {id:24,name:"دونات فراولة",price:1000,cat:"دونات",img:"assets/products/دونات فراولة.jpg"},
+
+  // عصائر طبيعية
+  {id:25,name:"عصير موز",price:1000,cat:"عصائر",img:"assets/products/عصير موز.jpg"},
+  {id:26,name:"عصير برتقال",price:1000,cat:"عصائر",img:"assets/products/عصير برتقال.jpg"},
+  {id:27,name:"عصير ليمون",price:1000,cat:"عصائر",img:"assets/products/عصير ليمون.jpg"},
+  {id:28,name:"عصير مكس ليمون وبرتقال",price:1500,cat:"عصائر",img:"assets/products/عصير ليمون وبرتقال.jpg"},
+  {id:29,name:"عصير مكس فراولة وموز",price:1500,cat:"عصائر",img:"assets/products/موز و فراوله.jpg"},
+  {id:30,name:"عصير فراولة/موز ونوتيلا",price:1500,cat:"عصائر",img:"assets/products/عصير فراولة و نوتيلا.jpg"},
+  {id:31,name:"عصير فراولة",price:1500,cat:"عصائر",img:"assets/products/عصير فراولة.jpg"},
+
+  // موهيتو
+  {id:32,name:"موهيتو كلاسيك",price:1500,cat:"عصائر",img:"assets/products/موهيتو.jpg"},
+  {id:33,name:"موهيتو مانجو",price:1500,cat:"عصائر",img:"assets/products/موهيتو مانجو.jpg"},
+  {id:34,name:"موهيتو خوخ",price:1500,cat:"عصائر",img:"assets/products/موهيتو خوخ.jpg"},
+  {id:35,name:"موهيتو برتقال",price:1500,cat:"عصائر",img:"assets/products/موهيتو برتقال.jpg"},
+  {id:36,name:"موهيتو ليمون",price:1500,cat:"عصائر",img:"assets/products/موهيتو ليمون.jpg"},
+  {id:37,name:"موهيتو أناناس",price:1500,cat:"عصائر",img:"assets/products/موهيتو اناناس.jpg"},
+  {id:38,name:"موهيتو فراولة",price:1500,cat:"عصائر",img:"assets/products/موهيتو فراولة.jpg"},
+  {id:39,name:"موهيتو ليمون ونعناع",price:1500,cat:"عصائر",img:"assets/products/موهيتو ليمون و نعناع.jpg"},
+
+  // مشروبات ساخنة
+  {id:40,name:"قهوة عربية - مرة",price:1000,cat:"مشروبات ساخنة",img:"assets/products/قهوه عربيه مره.jpg"},
+  {id:41,name:"قهوة عربية - وسط",price:1000,cat:"مشروبات ساخنة",img:"assets/products/قهوة تركيه.jpg"},
+  {id:42,name:"قهوة عربية - حلوة",price:1000,cat:"مشروبات ساخنة",img:"assets/products/قهوة تركيه.jpg"},
+  {id:43,name:"قهوة تركية - مرة",price:1500,cat:"مشروبات ساخنة",img:"assets/products/قهوة عربية.jpg"},
+  {id:44,name:"قهوة تركية - وسط",price:1500,cat:"مشروبات ساخنة",img:"assets/products/قهوة عربية.jpg"},
+  {id:45,name:"هوت جوكلت",price:1500,cat:"مشروبات ساخنة",img:"assets/products/قهوة .jpg"},
+  {id:46,name:"موكا",price:1500,cat:"مشروبات ساخنة",img:"assets/products/قهوة تركية وسط.jpg"},
+  {id:47,name:"لاتيه",price:1500,cat:"مشروبات ساخنة",img:"assets/products/لاتيه.jpg"},
+  {id:48,name:"كابچينو",price:1000,cat:"مشروبات ساخنة",img:"assets/products/كابتشينو.jpg"},
+  {id:49,name:"چاي",price:500,cat:"مشروبات ساخنة",img:"assets/products/شاي.jpg"},
+  {id:50,name:"چاي كرك",price:1000,cat:"مشروبات ساخنة",img:"assets/products/شاي كرك.jpg"},
+
+  // مشروبات باردة
+  {id:51,name:"آيس كوفي كلاسيك",price:1500,cat:"مشروبات باردة",img:"assets/products/ايس كوفي كلاسيك.jpg"},
+  {id:52,name:"آيس كوفي نوتيلا",price:2000,cat:"مشروبات باردة",img:"assets/products/ايس كوفي نوتيلا.jpg"},
+  {id:53,name:"آيس كوفي بستاشيو",price:2500,cat:"مشروبات باردة",img:"assets/products/ايس كوفي بستاشيو.jpg"},
+  {id:54,name:"آيس كوفي كراميل",price:2000,cat:"مشروبات باردة",img:"assets/products/ايس كوفي كراميل.jpg"}
+];
+
+let activeCategory = "الكل";
+
+const money = n => n.toLocaleString("en-US") + " د.ع";
+
+function showToast(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;
+  toast.classList.add("show");
+  clearTimeout(window.toastTimer);
+  window.toastTimer=setTimeout(()=>toast.classList.remove("show"),2400);
+}
+
+function enterSite(){
+  document.getElementById("intro").classList.add("hide");
+  document.body.style.overflow="auto";
+  setTimeout(()=>document.getElementById("intro").remove(),1100);
+  revealItems();
+}
+
+function renderProducts(){
+  const area=document.getElementById("products");
+  const filtered=productsData.filter(p=>activeCategory==="الكل"||p.cat===activeCategory);
+  area.innerHTML=filtered.map(p=>`
+    <article class="product reveal">
+      <div class="product-image">
+        ${p.img ? `${p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy">` : '<div class="no-product-image">KOOB</div>'}` : '<div class="no-product-image">KOOB</div>'}
+      </div>
+      <div class="product-info">
+        <h3>${p.name}</h3>
+        <p>${p.desc || ""}</p>
+        <div class="product-bottom">
+          <span class="price">${money(p.price)}</span>
+          
+        </div>
+      </div>
+    </article>
+  `).join("");
+  revealItems();
+}
+
+document.getElementById("categories").addEventListener("click",e=>{
+  const btn=e.target.closest(".category");
+  if(!btn)return;
+  document.querySelectorAll(".category").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  activeCategory=btn.dataset.category;
+  renderProducts();
+});
+
+function revealItems(){
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add("active");
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:.08});
+  document.querySelectorAll(".reveal:not(.active)").forEach(el=>observer.observe(el));
+}
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){
+  }
+});
+
+renderProducts();
+</script>
+</body>
+</html>
+
